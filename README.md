@@ -86,6 +86,7 @@ docker run -d -p 5000:5000 -v /root/out_path:/app/out_path -v /root/backup_m3u8_
 -v 映射本地输出视频下载输出路径
 -v m3u8文件备份路径
 -v 配置文件映射路径
+拉取官方仓库镜像
 # 3.配置文件说明
 一般情况下只要修改自己的alist账号密码和上传下载路径就行了，一般情况下请不要修改**out_path**和**backup_m3u8_path**
 **尤其是docker容器部署的方式**
@@ -129,4 +130,23 @@ server_url = http://192.168.1.111:16800/rpc
 token = pac_password
 download_path = /opt/SrcCloud123/temp/downloads/
 ```
-
+# 4.自行使用源码编译docker镜像
+如果使用docker官方的镜像仓库无法拉取镜像则下载源码，使用docker本地编译为适合机器架构的docker镜像再进行部署
+## AMD平台
+**编译镜像**
+```
+docker build -t m3u8dudu-amd64 --platform linux/amd64 .
+```
+**构建容器**
+```
+docker run -d -p 5000:5000 -v /root/out_path:/app/out_path -v /root/backup_m3u8_path:/app/backup_m3u8_path -v /root/config:/app/config m3u8dudu-amd64:latest
+```
+## ARM64平台
+**编译镜像**
+```
+docker build -t m3u8dudu-arm64 --platform linux/arm64/v8 .
+```
+**构建容器**
+```
+docker run -d -p 5000:5000 -v /root/out_path:/app/out_path -v /root/backup_m3u8_path:/app/backup_m3u8_path -v /root/config:/app/config m3u8dudu-arm64:latest
+```
