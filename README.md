@@ -3,9 +3,9 @@
 # 1.前端页面效果及功能
 ## 页面效果
 * 离线下载
-![9fe71f412a090b68843c81834b73db22.png](:/675d43ccf2f44565917b98793ea26ab0)
+![9fe71f412a090b68843c81834b73db22.png](https://github.com/1314ysys/imgbed/blob/main/9fe71f412a090b68843c81834b73db22.png)
 * 在线播放
-![69c4c28fe2a43f993dadfff2eaa28aca.png](:/52971dca5294479091e2136ac4893524)
+![69c4c28fe2a43f993dadfff2eaa28aca.png](https://github.com/1314ysys/imgbed/blob/main/69c4c28fe2a43f993dadfff2eaa28aca.png)
 ## 实现功能
 - 复制m3u8链接离线下载，支持批量离线下载
 - 复制m3u8链接在线解析播放视频
@@ -44,6 +44,7 @@ nano config/config.ini
 python3 app.py
 ```
 ![573fd30d3b836f9633855c94978de66e.png](https://github.com/1314ysys/imgbed/blob/main/573fd30d3b836f9633855c94978de66e.png)
+
 出现如上图所示说明已成功运行
 **注册为系统服务开机自启**
 使用以下命令来创建一个服务：
