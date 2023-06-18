@@ -1,9 +1,7 @@
-name: Flask App
-
+name: Deploy Flask App
 on:
   push:
-    branches: [ main ]
-
+    branches: [main]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -24,4 +22,4 @@ jobs:
       - name: Start Flask App
         run: |
           export FLASK_APP=app.py
-          flask run --host=0.0.0.0
+          flask run --host=0.0.0.0 --port=5000
