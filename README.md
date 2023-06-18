@@ -43,7 +43,7 @@ nano config/config.ini
 ```
 python3 app.py
 ```
-![573fd30d3b836f9633855c94978de66e.png](:/788c21edb3824d28b43365448e8ce53c)
+![573fd30d3b836f9633855c94978de66e.png](https://github.com/1314ysys/imgbed/blob/main/573fd30d3b836f9633855c94978de66e.png)
 出现如上图所示说明已成功运行
 **注册为系统服务开机自启**
 使用以下命令来创建一个服务：
