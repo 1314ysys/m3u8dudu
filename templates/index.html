@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>离线视频下载</title>
+    <!-- 引入 Bootstrap 和图标 -->
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/3121/3121602.png">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"><!--导航条-->
+        <a class="navbar-brand" href="#">Video Download</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active ">
+              <a class="nav-link" href="/">视频下载<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/play">视频播放</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/1314ysys/m3u8dudu">关于项目</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="text-center my-4">m3u8视频离线下载</h2>
+        <form method="POST" action="/download" onsubmit="return onSubmit();">
+            <div class="form-group">
+                <label for="file_content">请输入要下载的m3u8地址链接：</br>(一行输入一条链接，链接后空一格 标题表示此链接使用自定义标题)</label>
+                <textarea class="form-control" id="file_content" name="file_content" rows="6"></textarea>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-12 col-sm-4 col-md-3">
+                    <button type="submit" class="btn btn-primary mb-2 btn-block">开始下载</button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <h5>下载日志：</h5>
+        <div class="row">
+            <div class="col">
+                <textarea id="log" class="form-control" style="height: 200px; overflow-y: scroll;" readonly></textarea>
+            </div>
+        </div>
+        <div class="row justify-content-end mt-3">
+            <div class="col-auto col-sm-auto col-md-auto">
+                <button class="btn btn-secondary btn-block" onclick="clearLog()">清空日志</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入 Bootstrap JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        function onSubmit() {
+            // 获取表单数据
+            var fileContent = document.getElementById("file_content").value;
+
+            // 校验表单数据
+            if (!fileContent) {
+                alert('没有输入链接');
+                return false;
+            }
+            
+            // 清空表单(已经将表单数据存放为一个变量中)
+            document.getElementById("file_content").value = "";
+
+            // 弹出提示框
+            alert('开始下载');
+            
+            // 发送 AJAX 请求
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/download', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 更新日志信息
+                    var log = document.getElementById("log");
+                    log.value += xhr.responseText;
+
+                    // 保存日志信息到本地存储
+                    localStorage.setItem('log', log.value);
+                }
+            };
+            xhr.send('file_content=' + encodeURIComponent(fileContent));
+
+            // 禁止表单提交
+            return false;
+        }
+
+        
+        // 记录上次获取日志的行数
+        var lastLineCount = 0;
+
+        // 轮询日志文件内容
+        function pollLog() {
+            // 发送 Ajax 请求获取日志内容
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/log?last_line_count=' + lastLineCount, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 将新获取的日志信息添加到日志区域的内容中
+                    document.getElementById('log').value = '';
+                    localStorage.removeItem('log');
+                    var logArea = document.getElementById('log');
+                    logArea.value += xhr.responseText;
+
+                    // 记录上次获取日志的行数
+                    var lines = xhr.responseText.trim().split('\n');
+                    lastLineCount += lines.length;
+                }
+            };
+            xhr.send(null);
+
+            // 每 1 秒钟轮询一次
+            setTimeout(pollLog, 1000);
+        }
+
+        // 页面加载完毕后开始轮询
+        window.onload = pollLog;
+
+
+
+        // 清空日志信息
+        function clearLog() {
+            if (confirm('确定要清空日志吗？')) {
+                // 清空日志区域
+                document.getElementById('log').value = '';
+                localStorage.removeItem('log');
+
+                // 发送 AJAX 请求到后端，清空日志文件内容
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/clear_log', true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // 处理响应结果
+                        console.log(xhr.responseText);
+                    }
+                };
+                xhr.send(null);
+            }
+        }
+    </script>    
+</body>
+</html>
