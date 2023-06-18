@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>m3u8在线视频播放器</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 引入 Bootstrap CSS 文件 -->
+    <link rel="shortcut icon" type="image/x-icon" href="	https://cdn-icons-png.flaticon.com/512/2696/2696537.png">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css">
+	<style>
+		.video-box {
+			width: 100%;
+			max-width: 90vw;
+			max-height: 80vh;
+			margin-top: 2vh;
+		}
+		.container {
+            width: 100%;
+            max-width: 90vw;
+        }
+	</style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Video Player</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item ">
+            <a class="nav-link" href="/">视频下载</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/play">视频播放<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/1314ysys/m3u8dudu">关于项目</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="text-center" style="margin-top: 20px;margin-bottom: -20px;">m3u8在线播放器</h2>
+        <div class="mt-5">
+            <form id="video-form">
+                <div class="d-flex flex-row">
+                    <div class="flex-grow-1">
+                      <input type="text" class="form-control rounded-0" id="url" placeholder="输入m3u8视频链接">
+                    </div>
+                    <div class="align-self-start ml-0">
+                      <button type="submit" class="btn btn-primary rounded-0">播放</button>
+                    </div>
+                  </div>          
+            </form>
+        </div>
+    
+        <div class="video-box">
+            <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="100%" height="100%" style="width: 100%; height: 100%;">
+            </video>
+        </div>
+    </div>
+
+    <!-- 引入 jQuery 文件 -->
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <!-- 引入 Bootstrap JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <!-- 引入 hls.js 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    
+    <script>
+        const video = document.getElementById('my-video');
+        const videoSrc = document.getElementById('url');
+        const form = document.getElementById('video-form');
+        const hls = new Hls();
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            if (Hls.isSupported()) {
+                hls.loadSource(videoSrc.value);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
