@@ -80,7 +80,7 @@ systemctl enable m3u8dudu.service
 **1、必须安装docker**
 **2、使用命令拉取镜像(支持AMD和ARM64架构)**
 ```
-docker run -d -p 5000:5000 -v /root/out_path:/app/out_path -v /root/backup_m3u8_path:/app/backup_m3u8_path -v /root/config:/app/config lenfivil/m3u8dudu:latest
+docker run --restart always --name m3u8dudu -d -p 5000:5000 -v /root/out_path:/app/out_path -v /root/backup_m3u8_path:/app/backup_m3u8_path -v /root/config:/app/config lenfivil/m3u8dudu:latest
 ```
 - -d 表示容器后台运行
 -p 映射<本地5000端口>:<容器内端口5000> 容器内端口必须为5000
