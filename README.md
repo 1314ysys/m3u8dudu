@@ -46,8 +46,10 @@ python3 app.py
 ![573fd30d3b836f9633855c94978de66e.png](https://github.com/1314ysys/imgbed/blob/main/573fd30d3b836f9633855c94978de66e.png)
 
 出现如上图所示说明已成功运行
+
 **注册为系统服务开机自启**
-使用以下命令来创建一个服务：
+
+1、使用以下命令来创建一个服务：
 ```
 sudo nano /etc/systemd/system/m3u8dudu.service
 ```
@@ -84,7 +86,7 @@ docker run -d -p 5000:5000 -v /root/out_path:/app/out_path -v /root/backup_m3u8_
 -v 映射本地输出视频下载输出路径
 -v m3u8文件备份路径
 -v 配置文件映射路径
-### 配置文件说明
+# 3.配置文件说明
 一般情况下只要修改自己的alist账号密码和上传下载路径就行了，一般情况下请不要修改**out_path**和**backup_m3u8_path**
 **尤其是docker容器部署的方式**
 ```
