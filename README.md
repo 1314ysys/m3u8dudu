@@ -31,6 +31,7 @@ ffmpeg -version
 git clone https://github.com/1314ysys/m3u8dudu.git
 ```
 **4、使用python运行并注册为服务开机自启**
+
 进入项目文件夹
 ```
 cd m3u8dudu
