@@ -77,8 +77,11 @@ systemctl enable m3u8dudu.service
 ```
 ### docker镜像部署
 **(已经封装了Python+FFmpeg环境，镜像大小50M左右)**
+
 **1、必须安装docker**
+
 **2、使用命令拉取镜像(支持AMD和ARM64架构)**
+
 ```
 docker run --restart always --name m3u8dudu -d -p 5000:5000 -v /root/out_path:/app/out_path -v /root/backup_m3u8_path:/app/backup_m3u8_path -v /root/config:/app/config lenfivil/m3u8dudu:latest
 ```
